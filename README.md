@@ -4,6 +4,8 @@ Docker wrapper for [TwinVine](https://github.com/vinefeeder/TwinVine)
 
 ##  BUILD
 ```bash
+./init.sh
+cp ./TwinVine/WVDs/device.wvd device.wvd # or use your own
 ./build.sh
 ```
 
