@@ -71,7 +71,9 @@ RUN apt-get update && apt-get install -y \
     libxi6 \
     libxkbcommon0 \
     mkvtoolnix mkvtoolnix-gui \
-    jq
+    jq \
+    grep \
+    neovim 
 
 
 # Install Bento4 (mp4decrypt)
@@ -108,8 +110,6 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # Clone TwinVine repository
 #RUN git clone https://github.com/vinefeeder/TwinVine.git .
 COPY TwinVine/ /app/
-COPY device.wvd /app/WVDs/
-COPY versions.sh /app
 
 # Install Python dependencies using uv
 RUN uv clean && uv lock && uv sync
