@@ -108,8 +108,9 @@ RUN wget https://github.com/shaka-project/shaka-packager/releases/download/v3.2.
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Clone TwinVine repository
-git clone --depth 1 https://github.com/vinefeeder/TwinVine.git .
-RUN rm -rf .git
+RUN git clone --depth 1 https://github.com/vinefeeder/TwinVine.git /app/TwinVine
+RUN rm -rf /app/TwinVine/.git
+RUN mv -f /app/TwinVine/* /app 
 
 # Install Python dependencies using uv
 RUN uv clean && uv lock && uv sync
