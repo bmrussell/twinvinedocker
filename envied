@@ -5,4 +5,4 @@ podman run \
     -v $HOME/Downloads:/app/Downloads:z \
     -v $HOME/.config/twinvine/wvd:/app/WVDs:z \
     -v $HOME/.config/twinvine/cookies:/app/packages/envied/src/Cookies:Z \
-    -it twinvine bash -c "uv run envied dl --no-folder itv $@"
+    -it twinvine bash -c "uv run envied dl --no-folder all4 $@"

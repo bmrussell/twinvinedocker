@@ -1,24 +1,6 @@
 # Use Ubuntu 24.04 as base image
 FROM ubuntu:24.04
 
-# Accept build args for UID and GID and debug
-ARG USER_ID
-ARG GROUP_ID
-ARG DEBUG=0
-
-# Create group only if it doesn't exist
-RUN if ! getent group ${GROUP_ID} > /dev/null; then \
-        groupadd -g ${GROUP_ID} appgroup; \
-    fi
-
-# Create or reuse user
-RUN if ! id -u ${USER_ID} > /dev/null 2>&1; then \
-        useradd -m -u ${USER_ID} -g ${GROUP_ID} appuser; \
-    else \
-        existing_user=$(getent passwd ${USER_ID} | cut -d: -f1); \
-        usermod -g ${GROUP_ID} ${existing_user}; \
-    fi
-
 # Avoid prompts from apt
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -116,6 +98,7 @@ RUN mv -f /app/TwinVine/* /app
 RUN uv clean && uv lock && uv sync
 
 # Install debugpy for remote debugging support if required
+ARG DEBUG=0
 RUN if [ "$DEBUG" = "1" ]; then \
         apt-get update && \
         apt-get install -y python3-debugpy build-essential && \
@@ -138,9 +121,6 @@ COPY ./nogit/envied.yaml /app/packages/envied/src/envied/envied.yaml
 RUN chown -R  ubuntu:ubuntu /app && \
     chmod -R o+r /app && \
     chmod -R o+w /app
-
-# Switch to the non root user
-USER ubuntu
 
 # Default command runs vinefeeder
 CMD ["uv", "run", "env"]
